@@ -2,7 +2,7 @@
 
 九州各地でVCがおじゃまする、出張相談ウィークの小さなランディングページ。
 
-→ [venture-capital.github.io/bvc-week/](https://venture-capital.github.io/bvc-week/)
+→ [venture-capital.github.io/betavc-week/](https://venture-capital.github.io/betavc-week/)
 
 ---
 
