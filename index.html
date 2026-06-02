@@ -327,7 +327,17 @@
   }
   .intro-card > .num,
   .intro-card > h3,
-  .intro-card > p { position: relative; z-index: 1; }
+  .intro-card > p,
+  .intro-card > .intro-link { position: relative; z-index: 1; }
+  .intro-link {
+    display: inline-block; margin-top: 14px;
+    font-family: var(--font-rounded); font-weight: 700; font-size: 13px;
+    color: var(--brand); text-decoration: none;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 1px;
+    transition: color .15s, border-color .15s;
+  }
+  .intro-link:hover { color: var(--brand-dark); border-bottom-color: var(--brand); }
   @media (max-width: 720px) {
     .intro-grid { grid-template-columns: 1fr; gap: 14px; }
   }
@@ -434,12 +444,14 @@
   .event-body { padding: 26px 24px 24px; flex: 1; display: flex; flex-direction: column; }
 
   .event-dates {
-    display: flex; gap: 10px; flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+    gap: 8px;
     margin-bottom: 18px;
   }
   .event-date {
     background: var(--tint-08); border-radius: var(--r-md);
-    padding: 12px 14px; flex: 1; min-width: 0;
+    padding: 11px 12px; min-width: 0;
     border: 1px solid var(--tint-15);
   }
   .event-dates-tbd {
@@ -455,18 +467,18 @@
     line-height: 1; color: var(--brand);
     font-family: var(--font-rounded);
   }
-  .event-date-month { font-size: 14px; font-weight: 700; }
-  .event-date-month-suf { font-size: 11px; font-weight: 700; opacity: .7; margin-right: 2px; }
-  .event-date-day { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; }
-  .event-date-day-suf { font-size: 11px; font-weight: 700; opacity: .7; }
+  .event-date-month { font-size: 13px; font-weight: 700; }
+  .event-date-month-suf { font-size: 10px; font-weight: 700; opacity: .7; margin-right: 1px; }
+  .event-date-day { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; }
+  .event-date-day-suf { font-size: 10px; font-weight: 700; opacity: .7; }
   .event-date-dow {
     font-size: 9px; font-weight: 700; padding: 2px 5px;
     border-radius: 4px; background: var(--brand); color: white;
     margin-left: 4px; align-self: center;
   }
   .event-date-time {
-    margin-top: 6px; font-family: var(--font-en); font-weight: 800;
-    font-size: 13px; color: var(--brand-mid); letter-spacing: 0;
+    margin-top: 5px; font-family: var(--font-en); font-weight: 800;
+    font-size: 12px; color: var(--brand-mid); letter-spacing: 0;
   }
 
   .event-venue {
@@ -566,7 +578,8 @@
 
   @media (max-width: 980px) {
     .events-grid { grid-template-columns: 1fr; gap: 18px; }
-    .event-date-day { font-size: 42px; }
+    .event-dates { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+    .event-date-day { font-size: 34px; }
   }
 
   /* ==========================================================
@@ -847,7 +860,10 @@
      スキーマ:
        - "type": "event"       → 開催が決まっている都市のカード
                   "placeholder" → 「次回はどこ？」用のプレースホルダーカード
-       - "dates": 0件・1件・複数件のいずれもOK（空配列または省略時は「日程調整中」と表示）
+       - "dates": 1〜5件まで対応（各日ごとに時間帯を変えられます）。
+                  例: { "month": 6, "day": 11, "dow": "木", "time": "13:00 - 17:30" }
+                  3件以上は自動で2列に折り返して表示されます。
+                  空配列または省略時は「日程調整中」と表示されます。
        - "venue": 未定なら省略可（venue自体を消すか、{} にする）
        - "partners": 省略可
        - "applyUrl": 省略可（無い場合は「申し込みを一時停止しております」と表示されます）
@@ -859,7 +875,7 @@
       "id": "APU-2026-06",
       "city": "別府市",
       "cityEn": "BEPPU",
-      "status": "受付中",
+      "status": "掲載中",
       "type": "event",
       "dates": [
         { "month": 6, "day": 11, "dow": "木", "time": "13:00 - 17:30(仮)" },
@@ -877,17 +893,18 @@
       "city": "福岡",
       "cityEn": "FUKUOKA",
       "status": "受付中",
-      "type": "placeholder",
+      "type": "event",
       "dates": [
-        { "month": 6, "day": 18, "dow": "木", "time": "11:00 - 18:00" },
-        { "month": 6, "day": 19, "dow": "金", "time": "10:00 - 17:00" }
+        { "month": 6, "day": 16, "dow": "火", "time": "10:00 - 18:00" },
+        { "month": 6, "day": 17, "dow": "水", "time": "10:00 - 18:00" },
+        { "month": 6, "day": 18, "dow": "木", "time": "10:00 - 17:00" }
       ],
       "venue": {
-        "name": "β venture capital",
-        "address": "福岡県福岡市中央区大名2-4-22"
+        "name": "CIC Fukuoka",
+        "address": "福岡市中央区天神一丁目11-1 ONE FUKUOKA BLDG. 7F"
       },
-      "partners": ["βvc", "OnRAMP"],
-      "applyUrl": "https://forms.gle/example-fukuoka"
+      "partners": ["CIC Fukuoka", "βvc"],
+      "applyUrl": "https://forms.gle/E54hkw4sMMrftwkE9"
     },
     {
       "id": "next-coming-soon",
@@ -987,6 +1004,7 @@
         <div class="num">03</div>
         <h3>地域のパートナーと、<br>いっしょに開きます</h3>
         <p>各地のコワーキングスペースやインキュベーション施設にご協力いただき、その場所に集う人たちとの出会いを大切にしています。</p>
+        <a class="intro-link" href="https://forms.gle/m8ZUoFzrVuPc8gVv5" target="_blank" rel="noopener">うちの街にも来てほしい、を伝える →</a>
         <div class="corner-deco"></div>
       </div>
     </div>
